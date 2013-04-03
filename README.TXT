@@ -1,6 +1,7 @@
 CprE_310_Project
 ========
 
+This project is a way to create page ranking. It will use various professor submitted test files that declare the edges between the nodes.
 
 Eclipse Public License - v 1.0
 
