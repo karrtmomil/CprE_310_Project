@@ -99,7 +99,7 @@ void main()
 
 void addEdge(int a, int b, deque<Page> &pages)
 {
-	if(!contains(pages[a-1].linkTo, b) && !contains(pages[b-1].linkFrom, a))
+	if(!contains(pages[a-1].linkTo, b))
 	{
 		pages[a - 1].linkTo.push_back(b);
 		pages[b - 1].linkFrom.push_back(a);
