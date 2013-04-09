@@ -21,9 +21,15 @@ void main()
 		//cout << line << endl;
 		if (line != "")
 		{
-			int a, b;
-			a = atoi(line.substr(0,1).c_str());
-			b = atoi(line.substr(2,1).c_str());
+			int a, b, i;
+			i = line.find("\t");
+			if( i == -1) i = line.find(" ");
+			cout << i << endl;
+			a = atoi(line.substr(0,i).c_str());
+			i = line.find_last_of("\t");
+			if ( i == -1) i = line.find_last_of(" ");
+			cout << i << endl;
+			b = atoi(line.substr(i + 1).c_str());
 			cout << a << " " << b << endl;
 		}
 	}
