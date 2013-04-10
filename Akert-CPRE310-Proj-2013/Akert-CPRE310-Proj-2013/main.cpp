@@ -16,7 +16,7 @@ typedef struct Page {
 	{
 		linkTo = vector<int>();
 		linkFrom = vector<int>();
-		rankOld = 0.85;
+		rankOld = 1.0;
 		rankNew = 1.0;
 	}
 } Page;
@@ -24,7 +24,8 @@ typedef struct Page {
 void addEdge(int a, int b, deque<Page>& pages);
 bool iteration(deque<Page> &pages);
 bool contains(const std::vector<int> &vec, const int &value);
-void printRank(deque<Page> &pages);
+void printRankNew(deque<Page> &pages);
+void printRankOld(deque<Page> &pages);
 
 void main()
 {
@@ -82,8 +83,8 @@ void main()
 		iterations++;
 	}
 	//cout << "completed iterating" << endl;
-	cout << "Interpretation 1, Iterations: " << iterations << endl;
-	printRank(pages1);
+	cout << "Interpretation 1, Iterations: " << iterations - 1 << endl;
+	printRankOld(pages1);
 
 	iterate = true;
 	iterations = 0;
@@ -93,13 +94,13 @@ void main()
 		iterations++;
 	}
 	//cout << "completed iterating" << endl;
-	cout << "Interpretation 2, Iterations: " << iterations << endl;
-	printRank(pages2);
+	cout << "Interpretation 2, Iterations: " << iterations - 1 << endl;
+	printRankOld(pages2);
 }
 
 void addEdge(int a, int b, deque<Page> &pages)
 {
-	if(!contains(pages[a-1].linkTo, b))
+	if(!contains(pages[a-1].linkTo, b) && a != b)
 	{
 		pages[a - 1].linkTo.push_back(b);
 		pages[b - 1].linkFrom.push_back(a);
@@ -130,10 +131,15 @@ bool iteration(deque<Page> &pages)
 		}
 	}
 
-	// Update the pagerank values from new to old
-	for (int i = 0; i < pages.size(); i++)
+	//printRankNew(pages);
+
+	if(!last)
 	{
-		pages[i].rankOld = pages[i].rankNew;
+		// Update the pagerank values from new to old
+		for (int i = 0; i < pages.size(); i++)
+		{
+			pages[i].rankOld = pages[i].rankNew;
+		}
 	}
 
 	return last;
@@ -144,11 +150,20 @@ bool contains(const std::vector<int> &vec, const int &value)
     return find(vec.begin(), vec.end(), value) != vec.end();
 }
 
-void printRank(deque<Page> &pages)
+void printRankNew(deque<Page> &pages)
 {
 	for (int i = 0; i < pages.size(); i++)
 	{
 		cout << /*"Pagerank " <<*/ i + 1 << ": " << pages[i].rankNew << "\t";// << endl;
+	} 
+	cout << endl;
+}
+
+void printRankOld(deque<Page> &pages)
+{
+	for (int i = 0; i < pages.size(); i++)
+	{
+		cout << /*"Pagerank " <<*/ i + 1 << ": " << pages[i].rankOld << "\t";// << endl;
 	} 
 	cout << endl;
 }
